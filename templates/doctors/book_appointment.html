@@ -1,0 +1,60 @@
+{% extends 'doctors/base.html' %}
+{% load static %}
+{% block title %}Book Appointment{% endblock title %}
+{% block page_title %}Book Appointment{% endblock page_title %}
+{% block content %}
+<main>
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10">
+        <div class="card shadow-lg border-0 rounded-4">
+          <div class="card-body p-5">
+            <h2 class="fw-bold text-center mb-4">Book Appointment for Patient</h2>
+            {% if messages %}
+              <div class="mt-3">
+                {% for message in messages %}
+                  <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %} alert-dismissible fade show" role="alert" style="color: red">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                {% endfor %}
+              </div>
+            {% endif %}
+            <form method="POST" autocomplete="off">
+              {% csrf_token %}
+              <div class="mb-3">
+                <label for="patient_name" class="form-label fw-semibold">Patient Name or Username</label>
+                <input type="text" class="form-control form-control-lg" name="patient_name" id="patient_name" placeholder="Enter patient name or username" required>
+              </div>
+              <div class="mb-3">
+                <label for="date" class="form-label fw-semibold">Select Date</label>
+                <input type="date" class="form-control form-control-lg" id="date" name="date" required>
+              </div>
+              <div class="mb-3">
+                <label for="time" class="form-label fw-semibold">Select Time</label>
+                <select name="time" id="time" class="form-select form-select-lg" required>
+                  <option value="" disabled selected>Select a time</option>
+                  {% for time in times %}
+                    <option value="{{ time.time }}">{{ time.time }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="summary" class="form-label fw-semibold">Summary</label>
+                <input type="text" class="form-control form-control-lg" name="summary" id="summary" placeholder="Short summary (e.g. Consultation)" required>
+              </div>
+              <div class="mb-3">
+                <label for="description" class="form-label fw-semibold">Description</label>
+                <textarea class="form-control form-control-lg" id="description" name="description" rows="3" placeholder="Describe the issue or reason for appointment..."></textarea>
+              </div>
+              <div class="text-center mt-4">
+                <button type="submit" class="btn btn-success btn-lg px-5 py-2 shadow">Book Appointment</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %} 
